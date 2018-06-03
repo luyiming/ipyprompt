@@ -1,9 +1,8 @@
 from IPython.terminal.prompts import Prompts, Token
 from time import time, strftime, localtime
 from colorama import Fore, Style
-import os
 
-class TimePrompt(Prompts):
+class CustomPrompt(Prompts):
     def in_prompt_tokens(self, cli=None):
         return [
             (Token.Prompt, strftime("[%H:%M:%S] ", localtime())),
@@ -43,8 +42,8 @@ class VarWatcher(object):
             pass
 
 def load_ipython_extension(ip):
-    # ip = get_ipython()
+    """Load the extension in IPython."""
     vw = VarWatcher(ip)
     ip.events.register('pre_execute', vw.pre_execute)
     ip.events.register('post_execute', vw.post_execute)
-    ip.prompts = TimePrompt(ip)
+    ip.prompts = CustomPrompt(ip)
